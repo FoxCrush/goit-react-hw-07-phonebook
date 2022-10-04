@@ -1,17 +1,32 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createContact } from 'redux/contatcs/contactsActions';
+import PropTypes from 'prop-types';
+class addContactContainer extends Component {
+  state = { name: '', number: '' };
 
-class createContactContainer extends Component {
-  state = { name: "", number: "" };
-
-  addContactButtonHandler = () => {
-    const { name, number } = this.state;
-    if (this.state.name.length > 0) {
-      this.props.createContact(name, number);
-    }
-    this.setState({ name: "", number: "" });
+  sameContactNameWarning = name => {
+    alert(`${name} already exists`);
+  };
+  checkSameContactName = (contacts, name) => {
+    return contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
   };
 
-  onInputChangeHandler = (e) => {
+  addContactButtonHandler = () => {
+    const { name } = this.state;
+    const { items } = this.props;
+
+    if (!this.checkSameContactName(items, name) && name.length > 0) {
+      this.props.createContact(this.state);
+      this.setState({ name: '', number: '' });
+    } else {
+      this.sameContactNameWarning(name);
+    }
+  };
+
+  onInputChangeHandler = e => {
     e.preventDefault();
     const type = e.target.name;
     this.setState({ [type]: e.target.value });
@@ -21,8 +36,8 @@ class createContactContainer extends Component {
     const { name, number } = this.state;
 
     return (
-      <div className="createContactContainer">
-        <h3>Name</h3>
+      <div className="addContactContainer">
+        <h3>Name</h3>Names can't be same
         <input
           value={name}
           onChange={this.onInputChangeHandler}
@@ -30,7 +45,7 @@ class createContactContainer extends Component {
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+          title="The name can only consist of letters, apostrophes, dashes and spaces. Example: Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan etc."
           required
         />
         <h3>Number</h3>
@@ -41,7 +56,7 @@ class createContactContainer extends Component {
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
+          title="The phone number must consist of numbers and may contain spaces, dashes, parentheses, and may begin with +"
           required
         />
         <button
@@ -56,4 +71,30 @@ class createContactContainer extends Component {
   }
 }
 
-export default createContactContainer;
+addContactContainer.propTypes = {
+  createContact: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string,
+    })
+  ).isRequired,
+};
+
+const mapStateToProps = state => ({
+  items: state.contacts.items,
+});
+
+const mapDispatchToProps = dispatch => ({
+  createContact: contact => dispatch(createContact(contact)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(addContactContainer);
+
+// {
+//   createContact: contact => dispatch(createContact(contact)),
+// }
