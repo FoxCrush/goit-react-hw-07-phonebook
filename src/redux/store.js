@@ -1,7 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import contactReducer from './contatcs/contactsRedusers';
 import storage from 'redux-persist/lib/storage';
-
 import {
   persistStore,
   persistReducer,
@@ -12,6 +11,24 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'https://633dbec1f2b0e623dc7aa05f.mockapi.io/';
+
+axios
+  .get('contacts')
+  .then(response => console.log('response', response.data))
+  .catch(error => console.log);
+
+axios
+  .post('contacts', { name: 'Mike', number: '123' })
+  .then(function (response) {
+    console.log(response);
+  });
+axios
+  .get('contacts')
+  .then(response => console.log('response', response.data))
+  .catch(error => console.log);
 
 const middleware = [
   ...getDefaultMiddleware({
@@ -42,50 +59,3 @@ const storeWithPersistor = {
 };
 
 export default storeWithPersistor;
-
-// const rootReducer = combineReducers({
-//   contacts: contactReducer,
-// });
-
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-// const initialState = {
-//   contacts: {
-//     items: [
-// { id: 1, name: 'Alex', number: '123' },
-// { id: 2, name: 'Bob', number: '123' },
-// { id: 3, name: 'John', number: '123' },
-// { id: 4, name: 'Mike', number: '123' },
-//     ],
-//     filterString: 'test',
-//   },
-// };
-
-// const reducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     case 'phonebook/CreateContact':
-//       return { contacts: [...state.contacts, action.payload] };
-//     case 'phonebook/filterStringContacts':
-//       return {
-//         ...state,
-//         contacts: {
-//           ...state.contacts,
-//           filterString: action.payload,
-//         },
-//       };
-
-//     default:
-//       return state;
-//   }
-// };
-// const contatcsInitialState = {
-//   contacts: {
-//     items: [
-//       { id: 1, name: 'Alex', number: '123' },
-//       { id: 2, name: 'Bob', number: '123' },
-//       { id: 3, name: 'John', number: '123' },
-//       { id: 4, name: 'Mike', number: '123' },
-//     ],
-//     filterString: 'test',
-//   },
-// };

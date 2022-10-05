@@ -94,7 +94,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(addContactContainer);
-
-// {
-//   createContact: contact => dispatch(createContact(contact)),
-// }
