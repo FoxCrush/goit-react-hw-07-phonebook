@@ -7,9 +7,20 @@ import {
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
+  fetchContactRequest,
+  fetchContactSuccess,
+  fetchContactError,
 } from './contactsActions';
 
-axios.defaults.baseURL = 'https://633dbec1f2b0e623dc7aa05f.mockapi.io/';
+axios.defaults.baseURL = 'https://633dbec1f2b0e623dc7aa05f.mockapi.io';
+
+const fetchContacts = () => dispatch => {
+  dispatch(fetchContactRequest());
+  axios
+    .get('/contacts')
+    .then(data => dispatch(fetchContactSuccess(data)))
+    .catch(error => dispatch(fetchContactError(error)));
+};
 
 const createContact =
   ({ name, number }) =>
@@ -22,7 +33,7 @@ const createContact =
     dispatch(addContactRequest());
 
     axios
-      .post('contacts', contact)
+      .post('/contacts', contact)
       .then(({ data }) => {
         dispatch(addContactSuccess(data));
       })
@@ -32,7 +43,7 @@ const createContact =
 const deleteContact = id => dispatch => {
   dispatch(deleteContactRequest());
   axios
-    .delete(`contacts/${id}`)
+    .delete(`/contacts/${id}`)
     .then(() => {
       dispatch(deleteContactSuccess(id));
     })
@@ -42,4 +53,5 @@ const deleteContact = id => dispatch => {
 export default {
   createContact,
   deleteContact,
+  fetchContacts,
 };

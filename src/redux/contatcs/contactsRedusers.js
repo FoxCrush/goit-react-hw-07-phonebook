@@ -7,18 +7,15 @@ import {
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
+  fetchContactRequest,
+  fetchContactSuccess,
+  fetchContactError,
 } from './contactsActions';
 
 const { combineReducers } = require('redux');
 
-const defaultItems = [
-  { id: 1, name: 'Jack', number: '123' },
-  { id: 2, name: 'Bob', number: '123' },
-  { id: 3, name: 'John', number: '123' },
-  { id: 4, name: 'Mike', number: '123' },
-];
-
-const itemsReducer = createReducer(defaultItems, {
+const itemsReducer = createReducer([], {
+  [fetchContactSuccess]: (_, action) => action.payload.data,
   [addContactSuccess]: (state, action) => [...state, action.payload],
   [deleteContactSuccess]: (state, action) =>
     state.filter(contact => contact.id !== action.payload),
@@ -35,6 +32,9 @@ const loadingReducer = createReducer(false, {
   [deleteContactRequest]: () => true,
   [deleteContactSuccess]: () => false,
   [deleteContactError]: () => false,
+  [fetchContactRequest]: () => true,
+  [fetchContactSuccess]: () => false,
+  [fetchContactError]: () => false,
 });
 
 const contactReducer = combineReducers({

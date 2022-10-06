@@ -1,24 +1,30 @@
+import React, { Component } from 'react';
 import ContactListItem from 'components/ContactListItem';
 import { connect } from 'react-redux';
 import contactOperations from 'redux/contatcs/contacts-operations';
 import PropTypes from 'prop-types';
 
-function ClassList(props) {
-  return (
-    <div className="contactListContainer">
-      <ul>
-        {props.visibleContacts.map(({ id, name, number }) => (
-          <ContactListItem
-            id={id}
-            key={id}
-            name={name}
-            number={number}
-            deleteMethod={props.deleteContact}
-          />
-        ))}
-      </ul>
-    </div>
-  );
+class ClassList extends Component {
+  componentDidMount() {
+    this.props.getContacts();
+  }
+  render() {
+    return (
+      <div className="contactListContainer">
+        <ul>
+          {this.props.visibleContacts.map(({ id, name, number }) => (
+            <ContactListItem
+              id={id}
+              key={id}
+              name={name}
+              number={number}
+              deleteMethod={this.props.deleteContact}
+            />
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
 
 ClassList.propTypes = {
@@ -40,6 +46,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  getContacts: () => dispatch(contactOperations.fetchContacts()),
   deleteContact: contactId =>
     dispatch(contactOperations.deleteContact(contactId)),
 });
