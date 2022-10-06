@@ -37,7 +37,7 @@ class addContactContainer extends Component {
 
     return (
       <div className="addContactContainer">
-        <h3>Name</h3>Names can't be same
+        <h3>Name</h3>Names can't be same <br />
         <input
           value={name}
           onChange={this.onInputChangeHandler}
@@ -75,7 +75,6 @@ addContactContainer.propTypes = {
   createContact: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       name: PropTypes.string.isRequired,
       number: PropTypes.string,
     })

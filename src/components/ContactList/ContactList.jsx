@@ -25,7 +25,6 @@ ClassList.propTypes = {
   deleteContact: PropTypes.func.isRequired,
   visibleContacts: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       name: PropTypes.string.isRequired,
       number: PropTypes.string,
     })

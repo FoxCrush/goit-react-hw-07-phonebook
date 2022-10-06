@@ -18,7 +18,6 @@ function ContactListItem(props) {
 
 ContactListItem.propTypes = {
   deleteMethod: PropTypes.func,
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   name: PropTypes.string.isRequired,
   number: PropTypes.string,
 };

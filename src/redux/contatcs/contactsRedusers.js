@@ -10,7 +10,10 @@ const defaultItems = [
 ];
 
 const itemsReducer = createReducer(defaultItems, {
-  'phonebook/CreateContact': (state, action) => [...state, action.payload],
+  'phonebook/CreateContactSuccess': (state, action) => [
+    ...state,
+    action.payload,
+  ],
   'phonebook/DeleteContact': (state, action) =>
     state.filter(contact => contact.id !== action.payload),
 });
