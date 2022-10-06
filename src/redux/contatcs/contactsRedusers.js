@@ -1,4 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
+import {
+  addContactRequest,
+  addContactSuccess,
+  addContactError,
+  filterContacts,
+  deleteContactRequest,
+  deleteContactSuccess,
+  deleteContactError,
+} from './contactsActions';
 
 const { combineReducers } = require('redux');
 
@@ -10,21 +19,28 @@ const defaultItems = [
 ];
 
 const itemsReducer = createReducer(defaultItems, {
-  'phonebook/CreateContactSuccess': (state, action) => [
-    ...state,
-    action.payload,
-  ],
-  'phonebook/DeleteContact': (state, action) =>
+  [addContactSuccess]: (state, action) => [...state, action.payload],
+  [deleteContactSuccess]: (state, action) =>
     state.filter(contact => contact.id !== action.payload),
 });
 
 const filterReducer = createReducer('', {
-  'phonebook/FilterContacts': (_, action) => action.payload,
+  [filterContacts]: (_, action) => action.payload,
+});
+
+const loadingReducer = createReducer(false, {
+  [addContactRequest]: () => true,
+  [addContactSuccess]: () => false,
+  [addContactError]: () => false,
+  [deleteContactRequest]: () => true,
+  [deleteContactSuccess]: () => false,
+  [deleteContactError]: () => false,
 });
 
 const contactReducer = combineReducers({
   items: itemsReducer,
   filterString: filterReducer,
+  loading: loadingReducer,
 });
 
 export default contactReducer;

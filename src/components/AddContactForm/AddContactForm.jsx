@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createContact } from 'redux/contatcs/contactsActions';
+import contactOperations from 'redux/contatcs/contacts-operations';
 import PropTypes from 'prop-types';
 class addContactContainer extends Component {
   state = { name: '', number: '' };
@@ -86,7 +86,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createContact: contact => dispatch(createContact(contact)),
+  createContact: contact => dispatch(contactOperations.createContact(contact)),
 });
 
 export default connect(
