@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import contactOperations from 'redux/contatcs/contacts-operations';
 import PropTypes from 'prop-types';
+import { getAllContatcs } from 'redux/contatcs/contacts-selectors';
 class addContactContainer extends Component {
   state = { name: '', number: '' };
 
@@ -82,7 +83,7 @@ addContactContainer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  items: state.contacts.items,
+  items: getAllContatcs(state),
 });
 
 const mapDispatchToProps = dispatch => ({
