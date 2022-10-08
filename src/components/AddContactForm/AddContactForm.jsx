@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import contactOperations from 'redux/contatcs/contacts-operations';
-import PropTypes from 'prop-types';
 import { getAllContatcs } from 'redux/contatcs/contacts-selectors';
+import PropTypes from 'prop-types';
+
 class addContactContainer extends Component {
   state = { name: '', number: '' };
 
